@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\LaunchRepository;
+use App\Repository\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: LaunchRepository::class)]
-class Launch
+#[ORM\Entity(repositoryClass: ApplicationRepository::class)]
+class Application
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -14,21 +14,21 @@ class Launch
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $libelle = null;
+    private ?string $name = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLibelle(): ?string
+    public function getName(): ?string
     {
-        return $this->libelle;
+        return $this->name;
     }
 
-    public function setLibelle(string $libelle): static
+    public function setName(string $name): static
     {
-        $this->libelle = $libelle;
+        $this->name = $name;
 
         return $this;
     }

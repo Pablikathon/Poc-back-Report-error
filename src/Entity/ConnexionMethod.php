@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\HostRepository;
+use App\Repository\ConnexionMethodRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: HostRepository::class)]
-class Host
+#[ORM\Entity(repositoryClass: ConnexionMethodRepository::class)]
+class ConnexionMethod
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,17 +16,15 @@ class Host
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private string $libelle;
+    private ?string $libelle = null;
 
-    #[ORM\OneToMany(mappedBy: 'host', targetEntity: server::class)]
-    private Collection $server;
+    #[ORM\OneToMany(mappedBy: 'OneToMany', targetEntity: server::class)]
+    private Collection $Server;
 
 
-
-    public function __construct(string $libelle)
+    public function __construct()
     {
-        $this->libelle = $libelle;
-        $this->server = new ArrayCollection();
+        $this->Server = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,13 +49,14 @@ class Host
      */
     public function getServer(): Collection
     {
-        return $this->server;
+        return $this->Server;
     }
 
     public function addServer(server $server): static
     {
-        if (!$this->server->contains($server)) {
-            $this->server->add($server);
+        if (!$this->Server->contains($server)) {
+            $this->Server->add($server);
+            $server->setOneToMany($this);
         }
 
         return $this;
@@ -65,8 +64,15 @@ class Host
 
     public function removeServer(server $server): static
     {
-        $this->server->removeElement($server);
+        if ($this->Server->removeElement($server)) {
+            // set the owning side to null (unless already changed)
+            if ($server->getOneToMany() === $this) {
+                $server->setOneToMany(null);
+            }
+        }
 
         return $this;
     }
+
+
 }

@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Host;
+use App\Entity\Server;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use IServerService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class ApiServerController extends AbstractController
+{
+    private $ServerService;
+
+    public function __construct(IServerService $IServerService)
+    {
+        $this->ServerService = $IServerService;
+    }
+    #[Route('/api/server', name: 'GetServer',methods: Request::METHOD_GET)]
+    public function get(): JsonResponse
+    {
+        try
+        {
+            return new JsonResponse($this->ServerService->getServer(), Response::HTTP_OK);
+        }catch(Exception $e){
+            return new JsonResponse($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    #[Route('/api/server', name: 'CreateServer',methods: Request::METHOD_POST)]
+    public function create(Request $request):Response{
+        try
+        {
+            $data = $request->getContent();
+            return new JsonResponse($this->ServerService->createServer($data["ServerName"],$data["ServerHost"]), Response::HTTP_OK);
+        }catch(Exception $e){
+            return new JsonResponse($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+}
