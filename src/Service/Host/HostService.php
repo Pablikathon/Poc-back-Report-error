@@ -1,4 +1,7 @@
-<?
+<?php 
+
+namespace App\Service;
+
 
 use App\Entity\Host;
 use Doctrine\ORM\EntityManagerInterface;

@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Host;
-use App\Entity\Server;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Server\IServerService;
 use Exception;
-use IServerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +14,9 @@ class ApiServerController extends AbstractController
 {
     private $ServerService;
 
-    public function __construct(IServerService $IServerService)
+    public function __construct(IServerService $ServerService)
     {
-        $this->ServerService = $IServerService;
+        $this->ServerService = $ServerService;
     }
     #[Route('/api/server', name: 'GetServer',methods: Request::METHOD_GET)]
     public function get(): JsonResponse

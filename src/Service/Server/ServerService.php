@@ -1,20 +1,20 @@
-<? 
-namespace App\Controller;
-use App\Entity\Host;
+<?php  
+namespace App\Service\Server;
+
 use App\Entity\Server;
+use App\Repository\HostRepository;
+use App\Service\IHostService;
 use Doctrine\ORM\EntityManagerInterface;
-use IHostService;
-use IServerService;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 class ServerService implements IServerService
 {
     private $entityManager;
     private $hostService;
-    public function __construct(EntityManagerInterface $entityManager,IHostService $hostService)
+    private $hostRepository;
+    public function __construct(EntityManagerInterface $entityManager,IHostService $hostService,HostRepository $HostRepository)
     {
         $this->entityManager = $entityManager;
         $this->hostService = $hostService;
+        $this->hostRepository = $HostRepository;
     }
     public function getServer(): Array{
         $data = [];
@@ -32,7 +32,7 @@ class ServerService implements IServerService
     {
         $server = new Server();
         $server->setName($name);
-        $host = $this->hostService->FindHostByName($hostname);
+        $host = $this->hostRepository->FindHostByName($hostname);
 
         if(!$host){
             return null;
@@ -43,7 +43,7 @@ class ServerService implements IServerService
         $server->setHost($host);
         $this->entityManager->persist($host);
         $this->entityManager->flush();
-        return new JsonResponse(['status' => 'Server created!','data', $server], Response::HTTP_CREATED);
+        return $server;
     }
     public function updateServer(string $id, Server $server): ?Server
     {
