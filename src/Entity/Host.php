@@ -13,7 +13,7 @@ class Host
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?string $Id = null;
 
     #[ORM\Column(length: 255)]
     private string $libelle;
@@ -29,9 +29,9 @@ class Host
         $this->server = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
-        return $this->id;
+        return $this->Id;
     }
 
     public function getLibelle(): ?string

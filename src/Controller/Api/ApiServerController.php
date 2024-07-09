@@ -18,7 +18,7 @@ class ApiServerController extends AbstractController
     {
         $this->ServerService = $ServerService;
     }
-    #[Route('/api/server', name: 'GetServer',methods: Request::METHOD_GET)]
+    #[Route('/server', name: 'GetServer',methods: Request::METHOD_GET)]
     public function get(): JsonResponse
     {
         try
@@ -28,12 +28,23 @@ class ApiServerController extends AbstractController
             return new JsonResponse($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    #[Route('/api/server', name: 'CreateServer',methods: Request::METHOD_POST)]
+    #[Route('/server', name: 'CreateServer',methods: Request::METHOD_POST)]
     public function create(Request $request):Response{
         try
         {
             $data = $request->getContent();
             return new JsonResponse($this->ServerService->createServer($data["ServerName"],$data["ServerHost"]), Response::HTTP_OK);
+        }catch(Exception $e){
+            return new JsonResponse($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    #[Route('/server', name: 'UpdateServer',methods: Request::METHOD_PUT)]
+    public function update(Request $request):Response{
+        try
+        {
+            $data = $request->getContent();
+            $data["ServerName"];
+            return new JsonResponse($this->ServerService->updateServer(), Response::HTTP_OK);
         }catch(Exception $e){
             return new JsonResponse($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }

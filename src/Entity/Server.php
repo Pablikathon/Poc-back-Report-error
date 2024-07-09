@@ -6,6 +6,7 @@ use App\Repository\ServerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ServerRepository::class)]
 class Server
@@ -13,7 +14,7 @@ class Server
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?string $Id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -28,11 +29,12 @@ class Server
 
     public function __construct()
     {
+        $this->Id=Uuid::v4();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
-        return $this->id;
+        return $this->Id;
     }
 
     public function getName(): ?string

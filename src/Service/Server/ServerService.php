@@ -8,12 +8,10 @@ use Doctrine\ORM\EntityManagerInterface;
 class ServerService implements IServerService
 {
     private $entityManager;
-    private $hostService;
     private $hostRepository;
-    public function __construct(EntityManagerInterface $entityManager,IHostService $hostService,HostRepository $HostRepository)
+    public function __construct(EntityManagerInterface $entityManager,HostRepository $HostRepository)
     {
         $this->entityManager = $entityManager;
-        $this->hostService = $hostService;
         $this->hostRepository = $HostRepository;
     }
     public function getServer(): Array{

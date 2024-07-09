@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FamiliesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: FamiliesRepository::class)]
 class Families
@@ -22,7 +23,9 @@ class Families
 
     #[ORM\Column]
     private ?\DateTimeImmutable $Updated_at = null;
-
+    public function __construct() {
+        $this->Id=Uuid::v4();
+    }
     public function getId(): ?string
     {
         return $this->Id;

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\StatusRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
 class Status
@@ -23,6 +24,9 @@ class Status
     #[ORM\Column]
     private ?\DateTimeImmutable $Updated_at = null;
 
+    public function __construct() {
+        $this->Id=Uuid::v4();
+    }
     public function getId(): ?string
     {
         return $this->Id;

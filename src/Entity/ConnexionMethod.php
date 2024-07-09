@@ -6,6 +6,7 @@ use App\Repository\ConnexionMethodRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ConnexionMethodRepository::class)]
 class ConnexionMethod
@@ -13,7 +14,7 @@ class ConnexionMethod
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?string $Id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $libelle = null;
@@ -24,12 +25,13 @@ class ConnexionMethod
 
     public function __construct()
     {
+        $this->Id=Uuid::v4();
         $this->Server = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
-        return $this->id;
+        return $this->Id;
     }
 
     public function getLibelle(): ?string

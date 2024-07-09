@@ -23,9 +23,9 @@ class Version
     #[ORM\Column]
     private ?\DateTimeImmutable $Updated_at = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
-        return $this->id;
+        return $this->Id;
     }
 
     public function setId(string $Id): static

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TypeApplicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TypeApplicationRepository::class)]
 class TypeApplication
@@ -23,7 +24,10 @@ class TypeApplication
     #[ORM\Column]
     private ?\DateTimeImmutable $Updated_at = null;
 
-    public function getId(): ?int
+    public function __construct() {
+        $this->Id=Uuid::v4();
+    }
+    public function getId(): ?string
     {
         return $this->Id;
     }

@@ -23,7 +23,7 @@ class TypeEvent
     #[ORM\Column]
     private ?\DateTimeImmutable $Updated_at = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->Id;
     }
