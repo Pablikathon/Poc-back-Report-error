@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Service\Server\IServerService;
 use Exception;
@@ -14,7 +14,7 @@ class ApiServerController extends AbstractController
 {
     private $ServerService;
 
-    public function __construct(IServerService $ServerService)
+    public function __construct(IServerService $ServerService)  
     {
         $this->ServerService = $ServerService;
     }
