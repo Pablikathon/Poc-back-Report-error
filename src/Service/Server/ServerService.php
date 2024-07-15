@@ -1,9 +1,9 @@
 <?php  
 namespace App\Service\Server;
 
+use App\Entity\Host;
 use App\Entity\Server;
 use App\Repository\HostRepository;
-use App\Service\IHostService;
 use Doctrine\ORM\EntityManagerInterface;
 class ServerService implements IServerService
 {
@@ -30,7 +30,7 @@ class ServerService implements IServerService
     {
         $server = new Server();
         $server->setName($name);
-        $host = $this->hostRepository->FindHostByName($hostname);
+        $host = $this->hostRepository->findOneByLibelle($hostname);
 
         if(!$host){
             return null;
@@ -43,13 +43,16 @@ class ServerService implements IServerService
         $this->entityManager->flush();
         return $server;
     }
-    public function updateServer(string $id, Server $server): ?Server
+    public function updateServer(Server $server): ?Server
     {
-        $serverInBase = $this->entityManager->getRepository(Server::class)->find($id);
-        if(!$serverInBase){
+        $serverInBase = $this->entityManager->getRepository(Server::class)->find($server->getId());
+        $hostInBase = $this->entityManager->getRepository(Host::class)->find($server->getHost()->getId());
+        if(!$serverInBase || !$hostInBase){
             return null;
         }
         $serverInBase = $server;
+        $this->entityManager->persist($serverInBase);
+        $this->entityManager->flush();
         return $serverInBase;
     }
 }

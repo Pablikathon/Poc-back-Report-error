@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Server;
 use App\Service\Server\IServerService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,8 +44,7 @@ class ApiServerController extends AbstractController
         try
         {
             $data = $request->getContent();
-            $data["ServerName"];
-            return new JsonResponse($this->ServerService->updateServer(), Response::HTTP_OK);
+            return new JsonResponse($this->ServerService->updateServer(new Server($data["ServerName"])), Response::HTTP_OK);
         }catch(Exception $e){
             return new JsonResponse($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }

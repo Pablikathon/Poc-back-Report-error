@@ -36,10 +36,11 @@ class HostRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-   public function findOneByName($value): ?Host
+   public function findOneByLibelle($value): ?Host
    {
+        
        return $this->createQueryBuilder('host')
-           ->andWhere('h.name = :val')
+           ->andWhere('host.libelle = :val')
            ->setParameter('val', $value)
            ->getQuery()
            ->getOneOrNullResult()

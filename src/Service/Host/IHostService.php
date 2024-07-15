@@ -1,8 +1,9 @@
 <?php
-namespace App\Service;
+namespace App\Service\Host;
 
 use App\Entity\Host;
 
 Interface IHostService{
-    public function FindHostByName(string $hostname) : ?Host;
+    public function createHost(string $libelle): ?Host;
+    public function updateHost(Host $host,string $libelle): bool;
 }

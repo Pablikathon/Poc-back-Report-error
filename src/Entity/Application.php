@@ -4,21 +4,22 @@ namespace App\Entity;
 
 use App\Repository\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 class Application
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?string $Id = null;
+    #[ORM\Column(type: 'string', length: 16, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $Id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     public function __construct() {
-        $this->Id=Uuid::v4();
     }
     public function getId(): ?string
     {

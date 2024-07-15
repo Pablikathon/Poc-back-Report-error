@@ -7,14 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 #[ORM\Entity(repositoryClass: ServerRepository::class)]
 class Server
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?string $Id = null;
+    #[ORM\Column(type: 'string', length: 16, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $Id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -29,7 +31,6 @@ class Server
 
     public function __construct()
     {
-        $this->Id=Uuid::v4();
     }
 
     public function getId(): ?string
@@ -49,12 +50,12 @@ class Server
         return $this;
     }
 
-    public function getOneToMany(): ?ConnexionMethod
+    public function getConnexionMethod(): ?ConnexionMethod
     {
         return $this->connexionMethod;
     }
 
-    public function setOneToMany(?ConnexionMethod $connexionMethod): static
+    public function setConnexionMethod(?ConnexionMethod $connexionMethod): static
     {
         $this->connexionMethod = $connexionMethod;
 

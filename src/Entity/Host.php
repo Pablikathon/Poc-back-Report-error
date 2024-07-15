@@ -6,19 +6,22 @@ use App\Repository\HostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: HostRepository::class)]
 class Host
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?string $Id = null;
+    #[ORM\Column(type: 'string', length: 16, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private $Id = null;
 
     #[ORM\Column(length: 255)]
     private string $libelle;
 
-    #[ORM\OneToMany(mappedBy: 'host', targetEntity: server::class)]
+    #[ORM\OneToMany(mappedBy: 'host', targetEntity: Server::class)]
     private Collection $server;
 
 

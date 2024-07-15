@@ -3,16 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\VersionRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 
 #[ORM\Entity(repositoryClass: VersionRepository::class)]
 class Version
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: Types::GUID)]
-    private ?string $Id = null;
+    #[ORM\Column(type: 'string', length: 16, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $Id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Libelle = null;
